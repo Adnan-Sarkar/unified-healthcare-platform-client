@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
+import Providers from "@/lib/providers/Providers";
 
 export const metadata: Metadata = {
   title: "Unified Healthcare Platform",
@@ -14,7 +17,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>
+          <AppRouterCacheProvider>
+            <>
+              <Toaster position={"top-center"} />
+              {children}
+            </>
+          </AppRouterCacheProvider>
+        </Providers>
+      </body>
     </html>
   );
 }
