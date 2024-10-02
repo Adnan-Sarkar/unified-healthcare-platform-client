@@ -14,12 +14,50 @@ import Select from "@/components/form/Select";
 import { BloodGroupSelectItems } from "@/constant/bloodGroup";
 import { GenderSelectItems } from "@/constant/gender";
 import FileUploader from "@/components/form/FileUpload";
+import toast from "react-hot-toast";
+import { registrationUser } from "@/services/actions/registrationUser";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useState } from "react";
+import { uploadFileIntoCloudinary } from "@/utils/uploadFileIntoCloudinary";
 
 const Registration = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleRegistration = async (values: FieldValues) => {
+    setIsLoading(true);
+    const toastId = toast.loading("Registration in progress...");
+    try {
+      if (values.profilePicture) {
+        values.profilePicture = await uploadFileIntoCloudinary(
+          values.profilePicture
+        );
+      }
 
+      const regData = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+        gender: values.gender,
+        phone: values.phone,
+        location: values.location,
+        dateOfBirth: values.dateOfBirth,
+        bloodGroup: values.bloodGroup,
+        profilePicture: values.profilePicture,
+      };
+      const response = await registrationUser(regData);
+      if (response.success) {
+        toast.success("Registration successful", { id: toastId });
+        router.push("/login");
+      } else {
+        toast.error(response.message, { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Registration failed", { id: toastId });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const defaultValues = {
@@ -136,13 +174,26 @@ const Registration = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ width: "70%" }}
-                    >
-                      Registration
-                    </Button>
+                    {isLoading ? (
+                      <LoadingButton
+                        size="large"
+                        loading={isLoading}
+                        variant="contained"
+                        disabled
+                        sx={{ width: "70%" }}
+                      >
+                        Registration
+                      </LoadingButton>
+                    ) : (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ width: "70%" }}
+                      >
+                        Registration
+                      </Button>
+                    )}
+
                     <Typography sx={{ mt: 2 }} textAlign="center">
                       Don&apos;t have an account?{" "}
                       <Link href="/login">Login</Link>
