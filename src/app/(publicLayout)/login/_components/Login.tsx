@@ -9,12 +9,40 @@ import { FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { loginValidationSchema } from "../loginValidationSchema";
+import { loginUser } from "@/services/actions/loginUser";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { storeUserInfo } from "@/services/auth.services";
+import { useAppDispatch } from "@/redux/hooks";
+import { setToken } from "@/redux/features/user/tokenSlice";
 
 const Login = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleLogin = async (values: FieldValues) => {
-    console.log(values);
+    setIsLoading(true);
+    const toastId = toast.loading("Login in progress...");
+    try {
+      const response = await loginUser({
+        email: values.email,
+        password: values.password,
+      });
+      if (response.success) {
+        storeUserInfo(response.data);
+        dispatch(setToken(response.data));
+        toast.success("Login successful", { id: toastId });
+        router.push("/");
+      } else {
+        toast.error(response.message, { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Login failed", { id: toastId });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const defaultValues = {
@@ -61,17 +89,34 @@ const Login = () => {
                     />
                   </Stack>
                   <Box
-                   sx={{
-                    mt: 5,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                    sx={{
+                      mt: 5,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    <Button type="submit" variant="contained" sx={{ width: "70%" }}>
-                      Login
-                    </Button>
+                    {isLoading ? (
+                      <LoadingButton
+                        size="large"
+                        loading={isLoading}
+                        variant="contained"
+                        disabled
+                        sx={{ width: "70%" }}
+                      >
+                        Login
+                      </LoadingButton>
+                    ) : (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ width: "70%" }}
+                      >
+                        Login
+                      </Button>
+                    )}
+
                     <Typography sx={{ mt: 2 }} textAlign="center">
                       Don&apos;t have an account?{" "}
                       <Link href="/registration">Registration</Link>
