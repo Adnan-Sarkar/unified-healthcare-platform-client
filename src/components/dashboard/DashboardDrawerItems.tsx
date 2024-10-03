@@ -1,15 +1,22 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import Link from "next/link";
 import { Stack } from "@mui/material";
 import { generateDrawerItems } from "@/utils/generateDrawerItems";
 import { getUserInfo } from "@/services/auth.services";
-import { TDrawerItem, TUserRoles } from "@/types";
+import {TDrawerItem, TTokenData, TUserRoles} from "@/types";
 import DashboardDrawerItem from "@/components/dashboard/DashboardDrawerItem";
 
 const DashboardDrawerItems = () => {
-  const userData = getUserInfo();
+    const [userData, setUserData] = useState<TTokenData | null>(null);
+
+    useEffect(() => {
+        const userInfo = getUserInfo();
+        if (userInfo?.id) {
+            setUserData(userInfo);
+        }
+    }, []);
 
   return (
     <div>

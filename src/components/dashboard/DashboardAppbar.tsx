@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,6 +11,8 @@ import { removeToken } from "@/redux/features/user/tokenSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useLoggedInUserQuery } from "@/redux/api/user/userApi";
 import { getUserInfo, removeUserInfo } from "@/services/auth.services";
+import deleteCookie from "@/services/actions/deleteCookie";
+import {TTokenData} from "@/types";
 
 type TProps = {
   drawerWidth: number;
@@ -20,11 +22,20 @@ type TProps = {
 const DashboardAppbar = ({ drawerWidth, handleDrawerToggle }: TProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const userInfo = getUserInfo();
-  const { data, isLoading } = useLoggedInUserQuery(userInfo?.id || "");
+  const [userData, setUserData] = useState<TTokenData | null>(null);
+  const { data, isLoading } = useLoggedInUserQuery(userData?.id || "");
 
-  const handleLogout = () => {
+  useEffect(() => {
+    const userInfo = getUserInfo();
+    if (userInfo?.id) {
+      setUserData(userInfo);
+    }
+  }, []);
+
+
+  const handleLogout = async () => {
     dispatch(removeToken());
+    await deleteCookie();
     removeUserInfo();
     router.push("/adminLogin");
     router.refresh();
