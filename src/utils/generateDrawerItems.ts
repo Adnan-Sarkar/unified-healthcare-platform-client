@@ -11,18 +11,11 @@ import MedicationLiquidRoundedIcon from "@mui/icons-material/MedicationLiquidRou
 import DomainAddRoundedIcon from "@mui/icons-material/DomainAddRounded";
 import AirportShuttleRoundedIcon from "@mui/icons-material/AirportShuttleRounded";
 
-export const generateDrawerItems = (role: TUserRoles[]): TDrawerItem[] => {
+export const generateDrawerItems = (roles: TUserRoles[]): TDrawerItem[] => {
   const roleMenus: TDrawerItem[] = [];
 
-  const defaultMenus = [
-    {
-      title: "Change Password",
-      path: `change-password`,
-      icon: KeyRoundedIcon,
-    },
-  ];
 
-  if (role.includes("admin")) {
+  if (roles?.includes("admin")) {
     roleMenus.push(
       {
         title: "Home",
@@ -63,11 +56,16 @@ export const generateDrawerItems = (role: TUserRoles[]): TDrawerItem[] => {
         title: "Ambulance",
         path: `admin/manage-ambluance`,
         icon: AirportShuttleRoundedIcon,
-      }
+      },
+      {
+        title: "Change Password",
+        path: `admin/change-password`,
+        icon: KeyRoundedIcon,
+    },
     );
   }
 
-  if (role.includes("super_admin")) {
+  if (roles?.includes("super_admin")) {
     roleMenus.push(
       {
         title: "Profile",
@@ -82,7 +80,7 @@ export const generateDrawerItems = (role: TUserRoles[]): TDrawerItem[] => {
     );
   }
 
-  if (role.includes("user")) {
+  if (roles?.includes("user")) {
     roleMenus.push(
       {
         title: "Dashboard",
@@ -106,8 +104,6 @@ export const generateDrawerItems = (role: TUserRoles[]): TDrawerItem[] => {
       }
     );
   }
-
-  roleMenus.push(...defaultMenus);
 
   return roleMenus;
 };
