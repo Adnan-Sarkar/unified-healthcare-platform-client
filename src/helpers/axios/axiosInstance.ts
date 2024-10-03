@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getFromLocalStorage} from "@/utils/local-storage";
 
 export type TGenericErrorResponse = {
   statusCode: number;
@@ -34,6 +35,11 @@ axiosInstance.defaults.timeout = 60000;
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
+    const accessToken = getFromLocalStorage(process.env.NEXT_PUBLIC_AUTH_KEY as string);
+    if (accessToken) {
+      config.headers.Authorization = accessToken;
+    }
+
     return config;
   },
   function (error) {
