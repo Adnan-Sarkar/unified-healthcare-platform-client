@@ -4,7 +4,7 @@ import { TextField } from "@mui/material";
 
 type CustomInputFieldProps = {
   name: string;
-  label: string;
+  label?: string;
   type?: string;
   size?: "small" | "medium";
   fullWidth?: boolean;
