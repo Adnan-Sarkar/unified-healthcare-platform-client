@@ -32,6 +32,7 @@ export type TGender = "male" | "female";
 
 export type TUser = {
     id: string;
+    name: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -39,6 +40,7 @@ export type TUser = {
     gender: TGender;
     phone: string;
     location: string;
+    roles: string;
     accountStatus: TAccountStatus;
     dateOfBirth: string;
     bloodGroup: TBloodGroup;
