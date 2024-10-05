@@ -44,7 +44,7 @@ export const generateDrawerItems = (roles: TUserRoles[]): TDrawerItem[] => {
       },
       {
         title: "Pharmacy",
-        path: `admin/manage-pharmecy`,
+        path: `admin/manage-pharmacy`,
         icon: MedicationLiquidRoundedIcon,
       },
       {
