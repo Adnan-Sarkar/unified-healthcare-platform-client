@@ -264,7 +264,7 @@ const ManageUsersPage = () => {
           }}>
             <Stack justifyContent={"center"} alignItems={"center"}>
               <Stack direction={"row"} sx={{width: "70%"}} justifyContent={"center"} alignItems={"center"}>
-                <InputField name={"searchUser"} placeholder={"Search USer"} fullWidth={true} sx={{width: "60%"}} />
+                <InputField name={"searchUser"} placeholder={"Search Users"} fullWidth={true} sx={{width: "60%"}} />
                 <Button variant={"contained"} color={"primary"} type={"submit"} sx={{width: "15%"}}>
                   Search User
                 </Button>
