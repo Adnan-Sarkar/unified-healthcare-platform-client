@@ -12,6 +12,7 @@ type CustomInputFieldProps = {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  multiline?: boolean;
   sx?: SxProps;
 };
 
@@ -24,6 +25,7 @@ const InputField = ({
   variant = "outlined",
   placeholder,
   required,
+  multiline = false,
   sx,
   disabled = false,
 }: CustomInputFieldProps) => {
@@ -43,6 +45,7 @@ const InputField = ({
             fullWidth={fullWidth}
             placeholder={placeholder}
             required={required}
+            multiline={multiline}
             {...field}
             sx={{ ...sx }}
             error={!!error?.message}

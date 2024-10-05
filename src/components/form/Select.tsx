@@ -23,6 +23,7 @@ type CustomSelectFieldProps = {
   sx?: SxProps;
   items: SimpleItem[] | ComplexItem[];
   isComplex?: boolean;
+  defaultValue?: string;
 };
 
 const Select = ({
@@ -34,6 +35,7 @@ const Select = ({
   fullWidth = true,
   sx,
   isComplex = false,
+  defaultValue
 }: CustomSelectFieldProps) => {
   const { control, formState } = useFormContext();
   const isError = formState.errors[name] !== undefined;
@@ -51,6 +53,7 @@ const Select = ({
           size={size}
           select
           label={label}
+          defaultValue={defaultValue}
           required={required}
           fullWidth={fullWidth}
           error={isError}
