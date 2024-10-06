@@ -5,6 +5,7 @@ import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { SxProps } from "@mui/system";
 import { Controller, useFormContext } from "react-hook-form";
+import uploadIcon from "@/assets/upload.svg"
 
 type FileUploaderProps = {
   name: string;
@@ -49,7 +50,7 @@ const FileUploader = ({ name, label }: FileUploaderProps) => {
             ) : (
               <>
                 <Image
-                  src="/assets/icons/upload.svg"
+                  src={uploadIcon}
                   width={40}
                   height={40}
                   alt="upload"
