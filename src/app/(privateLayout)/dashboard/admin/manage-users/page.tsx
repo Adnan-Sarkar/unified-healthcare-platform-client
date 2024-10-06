@@ -57,7 +57,6 @@ const ManageUsersPage = () => {
   };
 
   const handleUserDetails = (userInfo: TUser) => {
-    console.log(userInfo);
     setUserDetailsInfo(userInfo);
     setIsModalOpen(true);
   }

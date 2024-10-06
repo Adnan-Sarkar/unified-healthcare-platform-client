@@ -1,6 +1,5 @@
 import React from "react";
 import { TComponentProps } from "@/types";
-import Dashboard from "@/components/dashboard/Dashboard";
 import {Box} from "@mui/material";
 import PharmacyNavbar from "@/app/(privateLayout)/dashboard/admin/manage-pharmacy/_components/PharmacyNavbar";
 

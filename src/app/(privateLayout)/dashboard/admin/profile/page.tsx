@@ -20,6 +20,8 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState<TTokenData | null>(null);
   const { data, isLoading } = useLoggedInUserQuery(userData?.id || "");
 
+  console.log(data)
+
   useEffect(() => {
     const userInfo = getUserInfo();
     if (userInfo?.id) {

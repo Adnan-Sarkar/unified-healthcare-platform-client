@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Grid from "@mui/material/Grid2";
 import Select from "@/components/form/Select";
-import {GenderSelectItems} from "@/constant/gender";
 import FileUploader from "@/components/form/FileUpload";
 import {
     medicineValidationSchema
@@ -26,8 +25,6 @@ const Page = () => {
 
     const [addNewMedicine, {isLoading}] = useAddNewMedicineMutation();
     const {data} = useGetMedicineCategoriesQuery({});
-
-
 
     const handleAddMedicine = async (values: FieldValues) => {
         const toastId = toast.loading("Uploading...", {
@@ -53,7 +50,6 @@ const Page = () => {
 
         try {
             const res = await addNewMedicine(medicineObj).unwrap();
-            console.log(res);
             if (res.success) {
                 toast.success("Medicine Added Successfully", {
                     id: toastId,

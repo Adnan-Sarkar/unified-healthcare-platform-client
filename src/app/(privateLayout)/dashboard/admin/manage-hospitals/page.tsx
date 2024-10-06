@@ -42,8 +42,6 @@ const ManageHospitalsPage = () => {
     pageCount = Math.ceil(data?.data?.meta?.total / limit);
   }
 
-  console.log(pageCount)
-
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };

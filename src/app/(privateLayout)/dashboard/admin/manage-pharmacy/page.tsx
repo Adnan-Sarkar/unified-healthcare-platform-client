@@ -109,8 +109,8 @@ const ManagePharmacyPage = () => {
                                     labelId="filter-by-label"
                                     label="Filter By"
                                     onChange={(event) => {
-                                        field.onChange(event); // update the form value
-                                        handleSubmit(handleFilterMedicines)(); // trigger form submission
+                                        field.onChange(event);
+                                        handleSubmit(handleFilterMedicines)();
                                     }}
                                 >
                                     <MenuItem value="">None</MenuItem>
