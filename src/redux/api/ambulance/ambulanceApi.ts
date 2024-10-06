@@ -48,6 +48,14 @@ const ambulanceApi = baseApi.injectEndpoints({
             invalidatesTags: [tagTypes.ambulance],
         }),
 
+        deleteAmbulanceInfo: builder.mutation({
+            query: (id: string) => ({
+                url: `/ambulance/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [tagTypes.ambulance],
+        }),
+
     }),
 });
 
@@ -56,5 +64,6 @@ export const {
     useGetAllAmbulanceCategoriesQuery,
     useAddAmbulanceMutation,
     useGetAllAmbulancesQuery,
-    useUpdateAmbulanceInfoMutation
+    useUpdateAmbulanceInfoMutation,
+    useDeleteAmbulanceInfoMutation
 } = ambulanceApi;

@@ -7,9 +7,14 @@ import {TAmbulance, THospital} from "@/types";
 import Form from "@/components/form/Form";
 import InputField from "@/components/form/InputField";
 import {Controller, FieldValues, useForm} from "react-hook-form";
-import {useGetAllAmbulanceCategoriesQuery, useGetAllAmbulancesQuery} from "@/redux/api/ambulance/ambulanceApi";
+import {
+  useDeleteAmbulanceInfoMutation,
+  useGetAllAmbulanceCategoriesQuery,
+  useGetAllAmbulancesQuery
+} from "@/redux/api/ambulance/ambulanceApi";
 import UpdateAmbulanceModal
   from "@/app/(privateLayout)/dashboard/admin/manage-ambulance/_components/UpdateAmbulanceModal";
+import toast from "react-hot-toast";
 
 type FormData = {
   filterBy: string;
@@ -28,6 +33,8 @@ const ManageUsersPage = () => {
       filterBy: filterBy,
     },
   });
+
+  const [deleteAmbulance] = useDeleteAmbulanceInfoMutation();
 
   const query: Record<string, any> = {
     page,
@@ -77,6 +84,30 @@ const ManageUsersPage = () => {
     setFilterBy(values.filterBy);
   }
 
+  const handleDeleteAmbulance = async (id: string) => {
+    const toastId = toast.loading("Uploading...", {
+      id: "uploading",
+    });
+
+    try {
+      const res = await deleteAmbulance(id).unwrap();
+
+      if (res?.success) {
+        toast.success("Ambulance Information Deleted Successfully", {
+          id: toastId,
+        });
+      }
+      else {
+        throw new Error("Something went wrong! Please try again later.");
+      }
+    }
+    catch (error: any) {
+      toast.error(error.message, {
+        id: toastId,
+      });
+    }
+  }
+
   const manageUsersColumns: GridColDef[] = [
     { field: 'rowSerial', headerName: 'Serial', maxWidth: 70, sortable: false},
     { field: 'ownerName', headerName: 'Owner Name',  minWidth: 200, sortable: false },
@@ -103,7 +134,7 @@ const ManageUsersPage = () => {
     {
       field: 'action',
       headerName: 'Actions',
-      minWidth: 200,
+      minWidth: 420,
       sortable: false,
       headerAlign: "center",
       align: "center",
@@ -118,6 +149,14 @@ const ManageUsersPage = () => {
                   color={"primary"}
               >
                 Update Ambulance
+              </Button>
+
+              <Button
+                  variant={"outlined"}
+                  onClick={() => handleDeleteAmbulance(row?.id)}
+                  color={"error"}
+              >
+                Delete Ambulance
               </Button>
             </Stack>
         );
