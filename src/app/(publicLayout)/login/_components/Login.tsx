@@ -34,7 +34,7 @@ const Login = () => {
         storeUserInfo(response.data);
         dispatch(setToken(response.data));
         toast.success("Login successful", { id: toastId });
-        router.push("/");
+        router.push("/home");
       } else {
         toast.error(response.message, { id: toastId });
       }
