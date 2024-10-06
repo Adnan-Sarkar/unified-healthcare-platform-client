@@ -1,6 +1,7 @@
 export type TAmbulance = {
     id?: string;
     ambulanceCategoryId: string;
+    categoryName?: string;
     ownerName: string;
     area: string;
     location: string;
