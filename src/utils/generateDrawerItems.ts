@@ -54,7 +54,7 @@ export const generateDrawerItems = (roles: TUserRoles[]): TDrawerItem[] => {
       },
       {
         title: "Ambulance",
-        path: `admin/manage-ambluance`,
+        path: `admin/manage-ambulance`,
         icon: AirportShuttleRoundedIcon,
       },
       {
