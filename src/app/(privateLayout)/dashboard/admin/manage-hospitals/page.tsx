@@ -7,9 +7,10 @@ import {THospital} from "@/types";
 import Form from "@/components/form/Form";
 import InputField from "@/components/form/InputField";
 import {FieldValues} from "react-hook-form";
-import {useGetAllHospitalsQuery} from "@/redux/api/hospital/hospitalApi";
+import {useDeleteHospitalInfoMutation, useGetAllHospitalsQuery} from "@/redux/api/hospital/hospitalApi";
 import UpdateHospitalModal
   from "@/app/(privateLayout)/dashboard/admin/manage-hospitals/_components/UpdateHospitalModal";
+import toast from "react-hot-toast";
 
 const ManageHospitalsPage = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -25,6 +26,7 @@ const ManageHospitalsPage = () => {
   };
 
   const {data, isLoading} = useGetAllHospitalsQuery(query);
+  const [deleteHospital] = useDeleteHospitalInfoMutation()
 
   let hospitalData;
   if (data?.data?.data?.length > 0 && !isLoading) {
@@ -59,6 +61,31 @@ const ManageHospitalsPage = () => {
     setSearchValue("");
   }
 
+  const handleDeleteHospital = async (id: string) => {
+    const toastId = toast.loading("Uploading...", {
+      id: "uploading",
+    });
+
+    try {
+      const res = await deleteHospital(id).unwrap();
+
+      if (res?.success) {
+        toast.success("Hospital Information Deleted Successfully", {
+          id: toastId,
+        });
+      }
+      else {
+        throw new Error("Something went wrong! Please try again later.");
+      }
+    }
+    catch (error: any) {
+      toast.error(error.message, {
+        id: toastId,
+      });
+    }
+
+  }
+
   const manageUsersColumns: GridColDef[] = [
     { field: 'rowSerial', headerName: 'Serial', maxWidth: 70, sortable: false},
     { field: 'name', headerName: 'Hospital Name',  minWidth: 300, sortable: false },
@@ -82,7 +109,7 @@ const ManageHospitalsPage = () => {
     {
       field: 'action',
       headerName: 'Actions',
-      minWidth: 200,
+      minWidth: 370,
       sortable: false,
       headerAlign: "center",
       align: "center",
@@ -97,6 +124,14 @@ const ManageHospitalsPage = () => {
                   color={"primary"}
               >
                 Update Hospital
+              </Button>
+
+              <Button
+                  variant={"outlined"}
+                  onClick={() => handleDeleteHospital(row?.id)}
+                  color={"error"}
+              >
+                Delete Hospital
               </Button>
             </Stack>
         );

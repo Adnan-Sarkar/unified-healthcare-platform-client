@@ -31,7 +31,13 @@ const hospitalApi = baseApi.injectEndpoints({
             invalidatesTags: [tagTypes.hospital],
         }),
 
-
+        deleteHospitalInfo: builder.mutation({
+            query: (id: string) => ({
+                url: `/hospital/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [tagTypes.hospital],
+        }),
 
     }),
 });
@@ -39,5 +45,6 @@ const hospitalApi = baseApi.injectEndpoints({
 export const {
     useAddNewHospitalMutation,
     useUpdateHospitalInfoMutation,
-    useGetAllHospitalsQuery
+    useGetAllHospitalsQuery,
+    useDeleteHospitalInfoMutation
 } = hospitalApi;
